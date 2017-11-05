@@ -1,23 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour {
-    private double speed;
-    private Rigidbody2D rb;
+public class Movement : MonoBehaviour {
+    private float speed = 1;
+    private CharacterController controller; 
 
 	// Use this for initialization
 	void Start () {
-        rb = GetComponent<Rigidbody2D>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        controller = GetComponent<CharacterController>();
+    }
 
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-        
-
+    // Update is called once per frame
+    void Update () {
+        CharacterController controller = GetComponent<CharacterController>();
+        Vector2 moveDirection = new Vector2(
+            Input.GetAxis("Horizontal"),
+            Input.GetAxis("Vertical")
+            ); 
+        controller.Move(moveDirection * speed * Time.deltaTime);
     }
 }
