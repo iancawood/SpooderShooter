@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public class Movement : MonoBehaviour {
+    [SerializeField]
     private float speed = 1;
     private CharacterController controller; 
 
@@ -11,7 +12,6 @@ public class Movement : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        CharacterController controller = GetComponent<CharacterController>();
         Vector2 moveDirection = new Vector2(
             Input.GetAxis("Horizontal"),
             Input.GetAxis("Vertical")
