@@ -2,20 +2,51 @@
 
 public class Movement : MonoBehaviour {
     [SerializeField]
-    private float speed = 1;
-    private CharacterController controller; 
+    private Rigidbody2D rb;
+    // position
+    private float x, y = 0;
+    public bool isGrounded = false;
+    // force
+    private float gravity = 0.1f;
+    private float speed = 5f;
+    private float quadStrength = 15f;
 
-	// Use this for initialization
-	void Start () {
-        controller = GetComponent<CharacterController>();
+    void Start () {
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update () {
-        Vector2 moveDirection = new Vector2(
-            Input.GetAxis("Horizontal"),
-            Input.GetAxis("Vertical")
-            ); 
-        controller.Move(moveDirection * speed * Time.deltaTime);
+
+        // walk
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            x -= speed * Time.deltaTime;
+        }else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            x += speed * Time.deltaTime;
+        }
+        if (isGrounded)
+        {
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                y += quadStrength * Time.deltaTime;
+                isGrounded = false;
+            }
+        }
+        else
+        {
+            y -= speed * Time.deltaTime;
+        }
+        
+
+        rb.MovePosition(new Vector2(x, y));
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Floor")
+        {
+            isGrounded = true;
+        }
     }
 }
